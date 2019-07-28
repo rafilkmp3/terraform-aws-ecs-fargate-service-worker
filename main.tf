@@ -197,7 +197,7 @@ resource "aws_appautoscaling_target" "scale_target" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# AWS Auto Scaling - Scaling Target
+# AWS CloudWatch - Log Group
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_cloudwatch_log_group" "loggroup" {
   name = "/ecs/service/${var.name_preffix}"
