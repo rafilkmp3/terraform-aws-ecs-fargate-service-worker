@@ -196,3 +196,10 @@ resource "aws_appautoscaling_target" "scale_target" {
   max_capacity       = 5
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# AWS Auto Scaling - Scaling Target
+# ---------------------------------------------------------------------------------------------------------------------
+resource "aws_cloudwatch_log_group" "loggroup" {
+  name = ""${var.name_preffix}"
+
+}
