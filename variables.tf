@@ -95,7 +95,10 @@ variable "health_check_grace_period_seconds" {
   type        = number
   default     = 0
 }
-
+variable "health_check_path" {
+  description = "(Optional) Path to be checked when heathcheck checks. Only valid for services configured to use load balancers."
+  default     = "/"
+}
 variable "placement_constraints" {
   type        = list
   description = "(Optional) rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. This is a list of maps, where each map should contain \"type\" and \"expression\""
