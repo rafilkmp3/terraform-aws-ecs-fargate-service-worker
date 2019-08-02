@@ -47,9 +47,9 @@ variable "container_name" {
   description = "Name of the running container"
 }
 
-variable "container_port" {
-  description = "Port on which the container is listening"
-}
+# variable "container_port" {
+#   description = "Port on which the container is listening"
+# }
 
 variable "desired_count" {
   description = "(Optional) The number of instances of the task definition to place and keep running. Defaults to 1."
