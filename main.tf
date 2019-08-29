@@ -22,12 +22,6 @@ resource "aws_security_group" "ecs_tasks_sg" {
   name        = "${var.name_preffix}-ecs-tasks-sg"
   description = "Allow inbound access from the LB only"
   vpc_id      = var.vpc_id
-  ingress {
-    protocol        = "tcp"
-    from_port       = var.container_port
-    to_port         = var.container_port
-    security_groups = [aws_security_group.lb_sg.id]
-  }
   egress {
     protocol    = "-1"
     from_port   = 0
@@ -43,7 +37,6 @@ resource "aws_security_group" "ecs_tasks_sg" {
 # AWS ECS SERVICE
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_ecs_service" "service" {
-  depends_on                         = [aws_lb_listener.listener]
   name                               = "${var.name_preffix}-service"
   cluster                            = var.ecs_cluster_arn
   task_definition                    = var.task_definition_arn
@@ -61,7 +54,7 @@ resource "aws_ecs_service" "service" {
       field = lookup(ordered_placement_strategy.value, "field", null)
     }
   }
-  health_check_grace_period_seconds  = var.health_check_grace_period_seconds
+  health_check_grace_period_seconds = var.health_check_grace_period_seconds
   dynamic "placement_constraints" {
     for_each = var.placement_constraints
     content {
@@ -79,14 +72,9 @@ resource "aws_ecs_service" "service" {
     }
   }
   network_configuration {
-    security_groups  =[aws_security_group.ecs_tasks_sg.id]
+    security_groups  = [aws_security_group.ecs_tasks_sg.id]
     subnets          = var.subnets
     assign_public_ip = var.assign_public_ip
-  }
-  load_balancer {
-    target_group_arn = aws_lb_target_group.lb_tg.arn
-    container_name   = var.container_name
-    container_port   = var.container_port
   }
 }
 
